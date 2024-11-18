@@ -1,0 +1,26 @@
+FROM ros:humble-ros-base-jammy
+
+# install ros2 packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-humble-perception=0.10.0-1* \
+    && rm -rf /var/lib/apt/lists/*
+
+# install Ultralytics
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --no-cache-dir Ultralytics
+
+RUN apt-get update && apt-get install -y nano wget
+
+RUN wget https://github.com/microsoft/onnxruntime/releases/download/v1.8.1/onnxruntime-linux-x64-1.8.1.tgz -O /tmp/onnxruntime-linux-x64-1.8.1.tgz && \
+    tar -xzf /tmp/onnxruntime-linux-x64-1.8.1.tgz -C /usr/local 
+
+# USE ultralytics docker container jetson for deploying on Jetson AGX
+# https://docs.ultralytics.com/guides/nvidia-jetson/#nvidia-jetson-series-comparison
+# Docker Image for Nvidia Jetson Devices
+# t=ultralytics/ultralytics:latest-jetson-jetpack5
+# sudo docker pull $t && sudo docker run -it --ipc=host --runtime=nvidia $t
+
+WORKDIR /home/peer_ws
