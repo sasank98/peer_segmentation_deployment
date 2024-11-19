@@ -45,8 +45,50 @@ dataset = version.download("yolov11")
 ```
 ### Training
 
-I used YOLOv11-nano to perform object detection and Segmentation, this can be found in the train folder
+I used YOLOv11-nano to perform object detection and Segmentation, this can be found in the Jupyter Notebook in train folder
 
 
+### Deploy
 
+#### File Structure
+```
+This Repository/
+├── Dockerfile        # Creates a Dockerfile that runs on Nvidia
+├── Dockerfile_X86.txt        # Dockerfile I used to run ROS2 and onnx
+├── run-docker.sh        # bash commands to start the docker container with Nvidia GPU
+├── build-docker.sh        # bash commands to build the docker image
+├── lab_studio_docker.sh        # code to start label-studio web interface as a dockercontainer
+
+├── train/        # directory with jupyter notebook to train the model
+    ├── runs/        # contains the iterations performed for segmentation and Object detection
+    ├── train_yolo.ipynb        # contains the code to train the models, and convert to other deployment formats
+
+├── peer_ws/src/        # directory contains packages for segmentation and object detection
+    ├── pallet_detection_python/        # directory to deploy the object detection in Python with GPU enabled
+        ├── pallet_detection.py        # Python code for the publisher node
+    ├──pallet_detection_RT/        # package to deploy the object detection model in C++ with ONNX, no GPU
+        ├── pallet_onnx.cpp        # C++ code for the object detection publisher node
+```
+
+#### Instructions to run the Publisher node on Nvidia AGX
+
+clone this repo on the edge device and build the Docker image with ROS2, Ultralytics, onnxruntime and TensorRT 
+```
+git clone https://github.com/sasank98/peer_segmentation_deployment.git
+cd peer_segmentation_deployment
+bash build-docker.sh
+```
+Start the container, this automatically opens the ROS2_workspace and build the packages in the docker container
+```
+bash run-docker.sh
+colcon build
+```
+Run the following command to start the node that subscibes to the RGB image of left_camera in Zed2i
+```
+ros2 run pallet_detection_python pallet_detection
+```
+
+#### NOTE
+
+this Repo is still a work in progress, more segmentation models and object detection models will be added. This repo also need to have code to deploy the segmentation model
 
