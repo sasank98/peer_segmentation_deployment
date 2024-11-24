@@ -11,7 +11,7 @@ class PalletDetectionNode(Node):
         super().__init__('pallet_detection_python')
         self.subscription = self.create_subscription(
             Image,
-            '/rgb/image_rect_color',
+            '/robot1/zed2i/left/image_rect_color',
             self.listener_callback,
             10)
         # subscribes to the left camera image of zed2i,topic obtained from zed2i ROS2 documentation

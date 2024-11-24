@@ -16,7 +16,7 @@ class PalletDetectionNode : public rclcpp::Node
 public:
     PalletDetectionNode() : Node("pallet_detection_onnx")
     {
-        image_sub_ = this->create_subscription<sensor_msgs::msg::Image>("/rgb/image_rect_color", 10, std::bind(&PalletDetectionNode::imageCallback, this, std::placeholders::_1));
+        image_sub_ = this->create_subscription<sensor_msgs::msg::Image>("/robot1/zed2i/left/image_rect_color", 10, std::bind(&PalletDetectionNode::imageCallback, this, std::placeholders::_1));
 
         image_pub_ = this->create_publisher<sensor_msgs::msg::Image>("/modified_image", 10);
 
