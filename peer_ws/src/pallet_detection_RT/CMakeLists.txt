@@ -16,7 +16,7 @@ find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
-
+find_package(ament_index_cpp REQUIRED)
 # Set the path to the ONNX Runtime installation
 # this is the onnxruntime path in Ultralytics container so the following line of code is changed
 # wget https://nvidia.box.com/shared/static/48dtuob7meiw6ebgfsfqakc9vse62sg4.whl -O onnxruntime_gpu-1.18.0-cp310-cp310-linux_aarch64.whl
